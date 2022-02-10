@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Map</title>
+    <link rel="stylesheet" href="map.css">
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=620ff0b2-46cb-4eec-b74f-2c4e7ba4a56d&lang=ru_RU"
+            type="text/javascript">
+    </script>
+</head>
+<body>
+    <div class="control">
+        <input id="address_1" type="text" placeholder="Откуда едем">
+        <input id="address_2" type="text" placeholder="Куда едем">
+
+        <button type="button" onclick="makeRoute()">Построить маршрут</button>
+        <button type="button" onclick="clearMap()">Очистить карту</button>
+    </div>
+
+    <div id="map" style="width: 80%; height: 80%; margin: 0 auto"></div><br>
+
+    <script type="text/javascript" src="map.js"></script>
+</body>
+</html>

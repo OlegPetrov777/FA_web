@@ -1,0 +1,41 @@
+html {
+    height: 100%;
+}
+
+body {
+    /* Градиент */
+    background: linear-gradient(#a8dadc, #f1faee) fixed;
+    height: 100%;
+}
+
+.control {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 30%;
+    margin: 0 auto 5px;
+}
+
+input {
+    margin-bottom: 2px;
+}
+
+button {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    padding: 5px 5px;
+    margin: 5px 5px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-image: linear-gradient(to right, #9bc7ec 0%, #1e63e3 51%, #7fb2d3 100%);
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+}
+
+button:hover {
+    background-position: right center;
+}
