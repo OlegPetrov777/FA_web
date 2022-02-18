@@ -1,0 +1,61 @@
+html {
+    height: 100%;
+}
+
+body {
+    /* Градиент */
+    background: linear-gradient(#8fcad9, #cef0f3) fixed;
+    height: 100vh;
+    display: flex;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.control {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 26%;
+    margin: 0 2%;
+}
+
+.label {
+    font-size: 70px;
+    color: #003049;
+
+}
+
+input {
+    padding: 5px 5px;
+    margin: 5px 5px;
+    border-radius:10px;
+}
+
+button {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    padding: 5px 5px;
+    margin: 5px 5px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+}
+
+button:hover {
+    background-position: right center;
+}
+
+.button {
+    background-image: linear-gradient(to right, #9bc7ec 0%, #1e63e3 51%, #7fb2d3 100%);
+
+}
+
+.del-button {
+    background-image: linear-gradient(to right, #d37f93 0%, #1e63e3 51%, #d37f93 100%);
+}
