@@ -1,0 +1,108 @@
+body {
+    /* Градиент */
+    background: linear-gradient(#8fcad9, #cef0f3) fixed;
+    height: 100vh;
+    display: flex;
+    margin: 0;
+    font-family: 'Acme', sans-serif;
+    /*font-family: 'Akaya Telivigala', cursive;*/
+    /*font-family: 'Inconsolata', monospace;*/
+}
+
+html {
+    height: 100%;
+}
+
+.control {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 26%;
+    margin: 0 auto;
+}
+
+.label {
+    font-size: 70px;
+    color: #003049;
+
+}
+
+input {
+    padding: 5px 5px;
+    margin: 5px 5px;
+    border-radius:10px;
+}
+
+/*BUTTONS*/
+.button, .del-button {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    padding: 5px 5px;
+    margin: 5px 5px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+}
+
+.button:hover, .del-button:hover {
+    background-position: right center;
+}
+
+.button {
+    background-image: linear-gradient(to right, #9bc7ec 0%, #1e63e3 51%, #7fb2d3 100%);
+}
+
+.del-button {
+    background-image: linear-gradient(to right, #d37f93 0%, #1e63e3 51%, #d37f93 100%);
+}
+
+
+/*INPUT RADIO*/
+.mode-box {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.mode-box-item {
+    display: inline-block;
+    float: left;
+    background: #e3f8fd;
+    border-radius: 6px;
+}
+
+.mode-box input[type=radio] {
+    display: none;
+}
+.mode-box label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 15px;
+    line-height: 34px;
+    border: 1px solid #000000;
+    border-right: none;
+    user-select: none;
+}
+
+.mode-box .mode-box-item:first-child label {
+    border-radius: 6px 0 0 6px;
+}
+.mode-box .mode-box-item:last-child label {
+    border-radius: 0 6px 6px 0;
+    border-right: 1px solid #000000;
+}
+
+/* Checked */
+.mode-box input[type=radio]:checked + label {
+    background: #98e1ff;
+}
+
+/* Hover */
+.mode-box label:hover {
+    color: #000000;
+}
