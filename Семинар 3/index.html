@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>My Map</title>
+
+    <!-- шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Acme&family=Akaya+Telivigala&family=Inconsolata:wght@500&display=swap" rel="stylesheet">
+
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=620ff0b2-46cb-4eec-b74f-2c4e7ba4a56d&lang=ru_RU"
+            type="text/javascript">
+    </script>
+
+    <style>
+        body {
+            /* Градиент */
+            background: linear-gradient(#8fcad9, #cef0f3) fixed;
+            height: 100vh;
+            display: flex;
+            margin: 0;
+            font-family: 'Acme', sans-serif;
+            /*font-family: 'Akaya Telivigala', cursive;*/
+            /*font-family: 'Inconsolata', monospace;*/
+        }
+
+        html {
+            height: 100%;
+        }
+
+        .control {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            width: 26%;
+            margin: 0 auto;
+        }
+
+        .label {
+            font-size: 70px;
+            color: #003049;
+
+        }
+
+        input {
+            padding: 5px 5px;
+            margin: 5px 5px;
+            border-radius:10px;
+        }
+
+        /*BUTTONS*/
+        .button, .del-button {
+            text-decoration: none;
+            display: inline-block;
+            color: white;
+            padding: 5px 5px;
+            margin: 5px 5px;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background-size: 200% auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+            transition: .5s;
+        }
+
+        .button:hover, .del-button:hover {
+            background-position: right center;
+        }
+
+        .button {
+            background-image: linear-gradient(to right, #9bc7ec 0%, #1e63e3 51%, #7fb2d3 100%);
+        }
+
+        .del-button {
+            background-image: linear-gradient(to right, #d37f93 0%, #1e63e3 51%, #d37f93 100%);
+        }
+
+
+        /*INPUT RADIO*/
+        .mode-box {
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .mode-box-item {
+            display: inline-block;
+            float: left;
+            background: #e3f8fd;
+            border-radius: 6px;
+        }
+
+        .mode-box input[type=radio] {
+            display: none;
+        }
+        .mode-box label {
+            display: inline-block;
+            cursor: pointer;
+            padding: 0 15px;
+            line-height: 34px;
+            border: 1px solid #000000;
+            border-right: none;
+            user-select: none;
+        }
+
+        .mode-box .mode-box-item:first-child label {
+            border-radius: 6px 0 0 6px;
+        }
+        .mode-box .mode-box-item:last-child label {
+            border-radius: 0 6px 6px 0;
+            border-right: 1px solid #000000;
+        }
+
+        /* Checked */
+        .mode-box input[type=radio]:checked + label {
+            background: #98e1ff;
+        }
+
+        /* Hover */
+        .mode-box label:hover {
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="control">
+    <label class="label" for="address_1">MyMap</label>
+
+
+    <div class="mode-box">
+        <div class="mode-box-item">
+            <input id="radio-1" type="radio" name="radio" value="auto">
+            <label for="radio-1">🚗</label>
+        </div>
+
+        <div class="mode-box-item">
+            <input id="radio-2" type="radio" name="radio" value="masstransit">
+            <label for="radio-2">🚋</label>
+        </div>
+
+        <div class="mode-box-item">
+            <input id="radio-3" type="radio" name="radio" value="pedestrian">
+            <label for="radio-3">🚶‍♂</label>
+        </div>
+    </div>
+
+    <input id="address_1" type="text" placeholder="Откуда едем">
+    <input id="address_2" type="text" placeholder="Куда едем">
+
+    <button class="button" type="button" onclick="makeRoute()">Построить маршрут</button>
+    <button class="del-button" type="button" onclick="clearMap()">Очистить карту</button>
+</div>
+
+<div id="map" style="width: 80%; height: 100%; margin: 0"></div>
+<br>
+
+<script>// Функция ymaps.ready() будет вызвана, когда
+// загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+ymaps.ready(init);
+
+function init() {
+    // Создание карты.
+    myMap = new ymaps.Map("map", {
+        // Координаты центра карты.
+        // Порядок по умолчанию: «широта, долгота».
+        // Чтобы не определять координаты центра карты вручную,
+        // воспользуйтесь инструментом Определение координат.
+        center: [55.8009332,37.5266524],
+        // Уровень масштабирования. Допустимые значения:
+        // от 0 (весь мир) до 19.
+        zoom: 15,
+        controls: ['zoomControl', 'typeSelector', 'geolocationControl']  // routeButtonControl - кнопка для построения маршрута
+    });
+}
+
+function makeRoute() { // Построение маршрута.
+// По умолчанию строится автомобильный маршрут.
+    let pointFrom = document.getElementById('address_1').value
+    let pointTo = document.getElementById('address_2').value
+
+    let routingMode = ''
+    let radio = document.querySelectorAll('input[name="radio"]');
+    for (let i = 0; i < radio.length; i++) {
+        if (radio[i].checked) {
+            routingMode = radio[i].value;
+        }
+    }
+
+    if (pointFrom === '' || pointTo === '') {
+        alert('Заполните поля')
+    } else {
+        myRoute = new ymaps.multiRouter.MultiRoute({
+            referencePoints: [pointFrom, pointTo],
+            params: {
+                routingMode: routingMode,
+                avoidTrafficJams: true
+            }
+        }, {
+            boundsAutoApply: true,  // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
+            routeActiveStrokeWidth: 10,
+            routeActiveStrokeStyle: 'solid',
+            routeActiveStrokeColor: '#2bccbf'
+        });
+
+// Добавление маршрута на карту.
+        myMap.geoObjects.add(myRoute);
+    }
+}
+
+function clearMap() {
+    myMap.geoObjects.removeAll();
+    myRoute && myMap.geoObjects.remove(myRoute);
+}
+</script>
+</body>
+</html>
