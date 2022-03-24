@@ -1,0 +1,22 @@
+body {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: #c0affc;
+}
+
+.main-div {
+    background-color: #ddc7ff;
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding-bottom: 20px;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 50%;
+    margin-bottom: 20px;
+}
