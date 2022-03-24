@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Скоринг</title>
+
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+
+<!--    <form action="http://localhost:3000/scoring" method="POST" name="form">-->
+
+    <div class="main-div">
+
+        <h1>Форма для заполнения</h1>
+        <p><i>Пожалуйста, заполните форму</i></p>
+
+        <fieldset>
+            <legend>Контактная информация</legend>
+
+            <label for="name">ФИО <em>*</em></label>
+            <input id="name" type="text" placeholder="Фамилия Имя Отчество" autofocus required>
+
+            <label for="phone">Номер телефона</label>
+            <input id="phone" type="text" placeholder="(ХХХ)ХХХ-ХХ-ХХ">
+
+            <label for="email">Электронная почта <em>*</em></label>
+            <input id="email" type="text" placeholder="yourmail@mail.ru" autofocus required>
+<!--        </fieldset>-->
+
+<!--        <fieldset>-->
+            <legend>Данные для проверки</legend>
+
+            <label for="gender">Пол</label>
+            <select name="gender" id="gender">
+                <option value="male">Мужской</option>
+                <option value="female">Женский</option>
+            </select>
+
+            <label for="birthDate">Дата рождения <em>*</em></label>
+            <input type="date" id="birthDate" name="birthDate" autofocus required>
+
+            <label for="periodLife">Срок проживания в регионе (лет) <em>*</em></label>
+            <input type="number" id="periodLife" name="periodLife" min="0" max="100" required>
+
+            <label for="profession">Дата рождения <em>*</em></label>
+            <select name="profession" id="profession">
+                <option value="driver">Водитель</option>
+                <option value="policeman">Полицейский</option>
+                <option value="pilot">Пилот</option>
+                <option value="manager">Менеджер</option>
+                <option value="judge">Судья</option>
+                <option value="developer">Разработчик</option>
+                <option value="teacher">Преподаватель</option>
+            </select>
+
+            <label for="sphere">Сфера деятельности</label>
+            <select name="sphere" id="sphere">
+                <option value="public">Общественная</option>
+                <option value="other">Другая</option>
+            </select>
+
+            <label for="periodWork">Срок работы в организации (лет) <em>*</em></label>
+            <input type="number" id="periodWork" name="periodWork" min="0" max="50" required>
+
+            <div class="checkbox-container">
+                <div class="checkbox-container-item">
+                    <label for="bankAccount">Наличие банковского счета</label>
+                    <input type="checkbox" id="bankAccount" name="bankAccount">
+                </div>
+
+                <div class="checkbox-container-item">
+                    <label for="immovable">Наличие недвижимости</label>
+                    <input type="checkbox" id="immovable" name="immovable">
+                </div>
+
+                <div class="checkbox-container-item">
+                    <label for="policy">Наличие страхового полиса</label>
+                    <input type="checkbox" id="policy" name="policy">
+                </div>
+            </div>
+        </fieldset>
+
+        <button onclick="submit()">Отправить форму</button>
+
+
+        <label for="find">Найти по почте</label>
+        <input type="text" id="find"/>
+        <button onclick="find()">Найти</button>
+    </div>
+
+    <script>
+        const submit = async () => {
+            const res = {
+                name: document.getElementById("name").value,
+                phone: document.getElementById("phone").value,
+                email: document.getElementById("email").value,
+                gender: document.getElementById("gender").value,
+                birthDate: document.getElementById("birthDate").value,
+                periodLife: Number(document.getElementById("periodLife").value),
+                profession: document.getElementById("profession").value,
+                periodWork: document.getElementById("periodWork").value,
+                bankAccount: document.getElementById("bankAccount").checked,
+                immovable: document.getElementById("immovable").checked,
+                policy: document.getElementById("policy").checked
+            }
+            console.log(res)
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify(res);
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+            };
+
+            let ans = await fetch("http://localhost:3000/scoring", requestOptions)
+            // let js = await ans.json()
+            document.querySelectorAll("input").forEach(el => el.value = "")
+            // alert(js.text)
+        }
+
+        const find = async () => {
+            const email = document.getElementById("find").value
+
+            let client
+
+            try {
+                client = await fetch("http://localhost:3000/find/" + email)
+                client = await client.json()
+                client = client.client
+                console.log(client)
+
+            } catch {
+                alert("Нет клиента с такой почтой")
+            }
+
+        }
+    </script>
+</body>
+</html>
