@@ -21,16 +21,26 @@
             height: 35px;
         }
     </style>
+
+    <script src="./Request.js"></script>
 </head>
 <body>
+
+
     <div class="container">
         <h1>Курс валюты</h1>
-        <select class="coins">
-            <option>ETH</option>
-            <option>BTC</option>
+        <select class="coins" onchange="sendRequest(event)">
+            <option value="AUD">AUD</option>
+            <option value="AZN">AZN</option>
+            <option value="GBP">GBP</option>
+            <option value="AMD">AMD</option>
+            <option value="BYN">BYN</option>
+            <option value="BGN">BGN</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
         </select>
 
-        <h2 class="value">3000</h2>
+        <h2 class="value" id="currency_value">...</h2>
     </div>
 </body>
 </html>
