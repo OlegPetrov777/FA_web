@@ -1,46 +1,30 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
-const rp = require('request-promise')
+const express = require("express");
+const cors = require('cors')
+const axios = require("axios");
+const app = express();
 
-let app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(logger('dev'));
+app.use(cors())
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.listen(8080,() => {
+    console.log("Started on PORT 8080");
+})
+// Add headers
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+app.get('/test', (req, res) => {
+    res.end("OK")
 });
 
+app.post('/getExchangeRateByCurrencyName', async (req, res) => {
+    let exchangeRate = "";
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/index.html")
+    await axios.get("https://www.cbr-xml-daily.ru/daily_json.js")
+        .then(response => {
+            const data = response.data;
+            exchangeRate = data["Valute"][req.body.currency]["Value"];
+            console.log(exchangeRate)
+        })
+        .catch();
+
+    res.end(JSON.stringify({exchangeRate: exchangeRate}))
 });
-
-app.get('/exchange/:val', (req, res) => {
-    let options = {
-        method: 'get',
-        uri: 'https://www.cbr-xml-daily.ru/daily_json.js',
-        json: true
-    };
-    console.log(req.params.val);
-
-});
-
-module.exports = app;
