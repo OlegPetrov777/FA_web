@@ -49,7 +49,6 @@ bot.on((ctx)=>{
             console.log(city);
             console.log(err);
         })
-    
 });
 
 weatherBot.get('/get/:city', (req, res)=>{
