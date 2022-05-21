@@ -67,7 +67,6 @@ weatherBot.get('/get/:city', (req, res)=>{
             });
         })
         .catch(function(err){
-            //ошибка
             console.log(err);
         })
     res.send(city);
